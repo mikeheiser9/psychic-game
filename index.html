@@ -2,91 +2,87 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Psychic Game</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="assets/css/reset.css" />
+    <title>Mike Heiser's Psychic Game</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 
 <body>
-    <div id="game">
-        <h1>The Psychic Game</h1>
-        
-        <span>Guess what letter I'm thinking of</span>
-        <h2>Wins</h2>
-        <span id="win"></span>
-        <h2>Losses</h2>
-        <span id="loss"></span>
-        <h2>Guesses Left</h2>
-        <span id="guess"></span>
-        <h2>Your Guesses so far</h2>
-        <span id="soFar"></span>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="game" class="jumbotron">
+                <h1>Mike Heiser's Psychic Game</h1>
+                <p>Guess a letter!</p>
+                <p id="wins">Total Wins: </p>
+                <p id="loss">Total Losses: </p>
+                <p id="guessesLeft">Guesses Left: </p>
+                <p id="soFar">Your Guesses so far: </p>
+            </div>
+        </div>
     </div>
-
     <script>
-        // create an array of all the computer options the computer has to pick
+        // set start point for variables
+        var wins = 0;
+        var losses = 0;
+        var guessesLeft = 9;
+        var guessesSoFar = [];
 
-        var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-            "t", "u", "v", "w", "x", "y", "z"
+        // create array for computer choices
+        var computerChoices = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+            "s", "t", "u", "v", "w", "x", "y", "z"
         ];
-        // set variable for computers choices
 
-        var computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
-        console.log(computerChoices);
+        // record users guess
+        document.onkeyup = function (event) {
+            var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
-        // set starting points for differnt input fields
-        var winCounter = 1;
-        var lossCounter = 1;
-        var guessesLeft = 10;
-        var yourGuesses = [];
+            // have computer select from array computerChoices
+            var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+            console.log(computerGuess)
+            // push user guess to guesses so far
+            guessesSoFar.push(userGuess);
 
-        // when player presses key this function will run
+            if (userGuess === computerGuess) {
+                wins++;
+                alert("Just like the Eagles... YOU WON!");
 
-        document.onkeypress = function (event) {
+                // reset the guesses back to 9 after win alert
+                guessesLeft = 9;
 
-            var userGuess = event.key;
+                // remove array from previous round so there is a fresh start
+                guessesSoFar.length = 0;
 
-            if (userGuess === computerChoices) {
-                document.getElementById("win").innerHTML = winCounter;
-                winCounter++;
-                computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
-                console.log(computerChoices);
-               
+                // function when guesses left = 0
+            } else if (guessesLeft == 0) {
+                losses++;
+                alert("Oops.. You're a loser. Just like Tom Brady and the Patriots");
+                guessesLeft = 9;
+                guessesSoFar.length = 0;
 
-            } else {
+                // decrease guesses when wrong
+            } else if (userGuess !== computerGuess) {
                 guessesLeft--;
-
             }
 
-            if (guessesLeft === 0) {
-                lossCounter++
-                computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
-                console.log(computerChoices);
-                document.getElementById("guess").innerHTML = loss;
-                //alert("GAME OVER")
+            function reWriteHtml() {
+                console.log("Total Wins: " + wins);
+                console.log("Total Losses: " + losses);
+                console.log("Guesses Left: " + guessesLeft);
+                console.log("Your Guesses so far: " + guessesSoFar);
             }
             
-            if (userGuess !== computerChoices) {
-                for (var i=0; i > 11; i++) {
-                    document.getElementById("soFar").innerHTML = userGuess[i];
 
-                }
-            }
+            // display game in html   
+            document.getElementById("wins").innerHTML = ("Total Wins: " + wins);
+            document.getElementById("loss").innerHTML = ("Total Losses: " + losses);
+            document.getElementById("guessesLeft").innerHTML = ("Guesses Left: " + guessesLeft);
+            document.getElementById("soFar").innerHTML = ("Your Guesses so far: " + guessesSoFar);
 
-            console.log(winCounter);
-            console.log(lossCounter);
-            console.log(yourGuesses);
-            console.log(guessesLeft);
-
-            // document.getElementById("win").innerHTML = win;
-            // doucment.getElementById("loss").innerHTML = loss;
-            // document.getElementById("guess").innerHTML = guessesLeft;
-            // document.getElementById("soFAr").innerHTML = yourGuesses;
-
-        }
-    </script>
-
+            };
+          </script>
 </body>
-
 </html>
