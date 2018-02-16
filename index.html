@@ -12,36 +12,34 @@
 <body>
     <div id="game">
         <h1>The Psychic Game</h1>
-        <br>
+        
         <span>Guess what letter I'm thinking of</span>
-        <br>
         <h2>Wins</h2>
         <span id="win"></span>
-        <br>
         <h2>Losses</h2>
         <span id="loss"></span>
-        <br>
         <h2>Guesses Left</h2>
         <span id="guess"></span>
-        <br>
         <h2>Your Guesses so far</h2>
         <span id="soFar"></span>
     </div>
 
     <script>
         // create an array of all the computer options the computer has to pick
+
         var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-            "t","u", "v", "w", "x", "y", "z"
+            "t", "u", "v", "w", "x", "y", "z"
         ];
         // set variable for computers choices
-        var computerChoices = alphabet[Math.random() * alphabet.length];
+
+        var computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
         console.log(computerChoices);
 
         // set starting points for differnt input fields
-        var win = 0;
-        var loss = 0;
+        var winCounter = 1;
+        var lossCounter = 1;
         var guessesLeft = 10;
-        var yourGuesses = 0;
+        var yourGuesses = [];
 
         // when player presses key this function will run
 
@@ -50,28 +48,41 @@
             var userGuess = event.key;
 
             if (userGuess === computerChoices) {
-                win++;
+                document.getElementById("win").innerHTML = winCounter;
+                winCounter++;
+                computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
+                console.log(computerChoices);
+               
+
             } else {
                 guessesLeft--;
+
             }
 
             if (guessesLeft === 0) {
-                loss++
+                lossCounter++
+                computerChoices = alphabet[Math.floor(Math.random() * alphabet.length)];
+                console.log(computerChoices);
+                document.getElementById("guess").innerHTML = loss;
+                //alert("GAME OVER")
             }
-
+            
             if (userGuess !== computerChoices) {
-                document.write(yourGuesses)++;
+                for (var i=0; i > 11; i++) {
+                    document.getElementById("soFar").innerHTML = userGuess[i];
+
+                }
             }
 
-            console.log(win);
-            console.log(loss);
+            console.log(winCounter);
+            console.log(lossCounter);
             console.log(yourGuesses);
             console.log(guessesLeft);
 
-            document.getElementById("win").innerHTML = win;
-            doucment.getElementById("loss").innerHTML = loss;
-            document.getElementById("guess").innerHTML = guessesLeft;
-            document.getElementById("soFAr").innerHTML = yourGuesses;
+            // document.getElementById("win").innerHTML = win;
+            // doucment.getElementById("loss").innerHTML = loss;
+            // document.getElementById("guess").innerHTML = guessesLeft;
+            // document.getElementById("soFAr").innerHTML = yourGuesses;
 
         }
     </script>
